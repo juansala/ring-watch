@@ -1,3 +1,3 @@
 # ring-watch
 
-A watch that fits on your finger. Features an ATMega2560 and the PCF8523 real-time clock IC to tell the time through an LED array.
+A watch that fits on your finger. Features an ATtiny85 and the PCF8523 real-time clock IC to change the color of an RGB LED based on the time of day.
