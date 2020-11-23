@@ -19,7 +19,7 @@ U 1 1 5FBB7D01
 P 4050 1600
 F 0 "J1" H 4078 1576 50  0000 L CNN
 F 1 "Programming Header" H 4078 1485 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical" H 4050 1600 50  0001 C CNN
+F 2 "Connector_PinHeader_1.00mm:PinHeader_2x03_P1.00mm_Vertical" H 4050 1600 50  0001 C CNN
 F 3 "~" H 4050 1600 50  0001 C CNN
 	1    4050 1600
 	1    0    0    -1  
@@ -107,9 +107,6 @@ F 3 "" H 6050 2050 50  0001 C CNN
 	1    6050 2050
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5850 2400 6050 2400
-Connection ~ 6050 2400
 $Comp
 L Device:C C2
 U 1 1 5FBD65C1
@@ -214,7 +211,7 @@ B1
 Text GLabel 3800 1700 0    50   Input ~ 0
 B2
 Text GLabel 3800 1800 0    50   Input ~ 0
-B3
+B5
 Wire Wire Line
 	3800 1500 3850 1500
 Wire Wire Line
@@ -383,4 +380,9 @@ F 3 "~" H 2000 2150 50  0001 C CNN
 	1    2000 2150
 	0    -1   -1   0   
 $EndComp
+Wire Wire Line
+	3100 2250 5850 2250
+Wire Wire Line
+	5850 2250 5850 2400
+Connection ~ 3100 2250
 $EndSCHEMATC
