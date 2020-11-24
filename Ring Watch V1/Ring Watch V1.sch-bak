@@ -380,4 +380,9 @@ F 3 "~" H 2000 2150 50  0001 C CNN
 	1    2000 2150
 	0    -1   -1   0   
 $EndComp
+Wire Wire Line
+	3100 2250 5850 2250
+Wire Wire Line
+	5850 2250 5850 2400
+Connection ~ 3100 2250
 $EndSCHEMATC

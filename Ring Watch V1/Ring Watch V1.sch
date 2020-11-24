@@ -177,19 +177,6 @@ B0
 Text GLabel 5400 2600 0    50   Input ~ 0
 B2
 $Comp
-L power:+BATT #PWR0108
-U 1 1 5FBE4D9A
-P 3650 1350
-F 0 "#PWR0108" H 3650 1200 50  0001 C CNN
-F 1 "+BATT" H 3665 1523 50  0000 C CNN
-F 2 "" H 3650 1350 50  0001 C CNN
-F 3 "" H 3650 1350 50  0001 C CNN
-	1    3650 1350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3850 1400 3650 1400
-$Comp
 L power:GND #PWR0109
 U 1 1 5FBE591F
 P 3650 1950
@@ -277,8 +264,6 @@ Wire Wire Line
 	5250 1650 5450 1650
 Wire Wire Line
 	5250 1500 5250 1550
-Wire Wire Line
-	3650 1350 3650 1400
 $Comp
 L Device:LED_RGB D1
 U 1 1 5FBB0105
@@ -385,4 +370,8 @@ Wire Wire Line
 Wire Wire Line
 	5850 2250 5850 2400
 Connection ~ 3100 2250
+Wire Wire Line
+	3100 1400 3100 2250
+Wire Wire Line
+	3100 1400 3850 1400
 $EndSCHEMATC
