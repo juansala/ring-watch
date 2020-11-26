@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "C:\\Users\\Admin\\Desktop\\ring-watch\\Ring Watch V1\\Ring Watch V1.sch")
-    (date "11/24/2020 12:22:31 AM")
+    (date "11/26/2020 3:26:08 PM")
     (tool "Eeschema (5.1.5)-3")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -94,7 +94,7 @@
       (tstamp 5FBD0E6B))
     (comp (ref H1)
       (value "Battery Mechanical Switch Pad")
-      (footprint TestPoint:TestPoint_Pad_4.0x4.0mm)
+      (footprint TestPoint:TestPoint_Keystone_5019_Minature)
       (datasheet ~)
       (libsource (lib Mechanical) (part MountingHole_Pad) (description "Mounting Hole with connection"))
       (sheetpath (names /) (tstamps /))
