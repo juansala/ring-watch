@@ -360,7 +360,7 @@ U 1 1 5FBCE2ED
 P 2000 2150
 F 0 "H1" V 2237 2153 50  0000 C CNN
 F 1 "Battery Mechanical Switch Pad" V 2146 2153 50  0000 C CNN
-F 2 "TestPoint:TestPoint_Pad_4.0x4.0mm" H 2000 2150 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Keystone_5019_Minature" H 2000 2150 50  0001 C CNN
 F 3 "~" H 2000 2150 50  0001 C CNN
 	1    2000 2150
 	0    -1   -1   0   

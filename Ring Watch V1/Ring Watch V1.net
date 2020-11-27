@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "C:\\Users\\Admin\\Desktop\\ring-watch\\Ring Watch V1\\Ring Watch V1.sch")
-    (date "11/26/2020 3:26:08 PM")
+    (date "11/26/2020 8:04:20 PM")
     (tool "Eeschema (5.1.5)-3")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
