@@ -1,0 +1,18 @@
+G04 #@! TF.GenerationSoftware,KiCad,Pcbnew,(5.1.5)-3*
+G04 #@! TF.CreationDate,2020-12-31T17:50:50-05:00*
+G04 #@! TF.ProjectId,Ring Watch V1,52696e67-2057-4617-9463-682056312e6b,rev?*
+G04 #@! TF.SameCoordinates,Original*
+G04 #@! TF.FileFunction,Paste,Bot*
+G04 #@! TF.FilePolarity,Positive*
+%FSLAX46Y46*%
+G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
+G04 Created by KiCad (PCBNEW (5.1.5)-3) date 2020-12-31 17:50:50*
+%MOMM*%
+%LPD*%
+G04 APERTURE LIST*
+%ADD10R,1.270000X5.080000*%
+G04 APERTURE END LIST*
+D10*
+X87440000Y-107950000D03*
+X109410000Y-107950000D03*
+M02*

@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "C:\\Users\\Admin\\Desktop\\ring-watch\\Ring Watch V1\\Ring Watch V1.sch")
-    (date "12/31/2020 5:00:24 PM")
+    (date "12/31/2020 9:06:37 PM")
     (tool "Eeschema (5.1.5)-3")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -59,7 +59,7 @@
       (tstamp 5FBD65C1))
     (comp (ref Y1)
       (value 32.768)
-      (footprint Crystal:Crystal_SMD_Abracon_ABM7-2Pin_6.0x3.5mm)
+      (footprint Crystal:Crystal_SMD_3215-2Pin_3.2x1.5mm)
       (datasheet ~)
       (libsource (lib Device) (part Crystal) (description "Two pin crystal"))
       (sheetpath (names /) (tstamps /))
