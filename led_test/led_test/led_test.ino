@@ -36,14 +36,16 @@ void SetColour (int colour, int intensity) {
 }  
 
 void loop() {
+//  OCR0B = 255;
+//  OCR1A = 255;
 //  for (int i=-255; i <= 254; i++) {
-////    OCR0A = abs(i);
-////    OCR0B = 255-abs(i);
+//    OCR0A = abs(i);
+//    OCR0B = 255-abs(i);
 //    OCR1A = abs(i);
-////    OCR1B = 255-abs(i);
+//    OCR1B = 255-abs(i);
 //    delay(10);
 //  }
-  OCR1A = 255; //R
-  OCR0B = 127; //G
-  OCR1B = 127; // B
+  OCR1A = 1; //R
+  OCR0B = 1; //G
+  OCR1B = 1; // B
 }
