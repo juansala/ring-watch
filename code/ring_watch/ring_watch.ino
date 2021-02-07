@@ -2,6 +2,21 @@
 #include "RTClib.h"
 #include <SoftwareSerial.h>
 
+// ATtiny Outputs
+const int Red = 0;
+const int Green = 1;
+const int Blue = 4;
+const int White = 3;
+volatile uint8_t* Port[] = {&OCR0A, &OCR0B, &OCR1A, &OCR1B};
+
+// FSM
+int state;
+unsigned long timer;
+const int INIT = 0;
+const int DISP = 1;
+const int STANDBY = 2;
+
+
 RTC_PCF8523 rtc;
 SoftwareSerial mySerial(3, 4);
 
@@ -67,49 +82,67 @@ void setup () {
 
   mySerial.print("Offset is "); mySerial.println(offset); // Print to control offset
 
+  // ATtiny PWM setup
+  pinMode(Red, OUTPUT);
+  pinMode(Green, OUTPUT);
+  pinMode(Blue, OUTPUT);
+  pinMode(White, OUTPUT);
+  // Configure counter/timer0 for fast PWM on PB0 and PB1
+  TCCR0A = 3<<COM0A0 | 3<<COM0B0 | 3<<WGM00;
+  TCCR0B = 0<<WGM02 | 3<<CS00; // Optional; already set
+  // Configure counter/timer1 for fast PWM on PB4
+  TCCR1 = 1<<CTC1 | 1<<PWM1A | 3<<COM1A0 | 7<<CS10;
+  GTCCR = 1<<PWM1B | 3<<COM1B0;
+  // Interrupts on OC1A match and overflow
+  TIMSK = TIMSK | 1<<OCIE1A | 1<<TOIE1;
+
+}
+
+ISR(TIMER1_COMPA_vect) {
+  if (!bitRead(TIFR,TOV1)) bitSet(PORTB, White);
+}
+
+ISR(TIMER1_OVF_vect) {
+  bitClear(PORTB, White);
+}
+
+void setColor(int R, int G, int B) {
+  OCR1A = R; //R
+  OCR0B = G; //G
+  OCR1B = B; // B
+}
+
+void clockFSM(int state){
+  switch(state){
+    case INIT:
+    break;
+
+    case DISP:
+    break;
+
+    case STANDBY:
+    break;
+  }
+  
 }
 
 void loop () {
     DateTime now = rtc.now();
 
-    mySerial.print(now.year(), DEC);
-    mySerial.print('/');
-    mySerial.print(now.month(), DEC);
-    mySerial.print('/');
-    mySerial.print(now.day(), DEC);
-    mySerial.print(" (");
-    mySerial.print(daysOfTheWeek[now.dayOfTheWeek()]);
-    mySerial.print(") ");
-    mySerial.print(now.hour(), DEC);
-    mySerial.print(':');
-    mySerial.print(now.minute(), DEC);
-    mySerial.print(':');
-    mySerial.print(now.second(), DEC);
-    mySerial.println();
-
-    mySerial.print(" since midnight 1/1/1970 = ");
-    mySerial.print(now.unixtime());
-    mySerial.print("s = ");
-    mySerial.print(now.unixtime() / 86400L);
-    mySerial.println("d");
-
-    // calculate a date which is 7 days, 12 hours and 30 seconds into the future
-    DateTime future (now + TimeSpan(7,12,30,6));
-
-    mySerial.print(" now + 7d + 12h + 30m + 6s: ");
-    mySerial.print(future.year(), DEC);
-    mySerial.print('/');
-    mySerial.print(future.month(), DEC);
-    mySerial.print('/');
-    mySerial.print(future.day(), DEC);
-    mySerial.print(' ');
-    mySerial.print(future.hour(), DEC);
-    mySerial.print(':');
-    mySerial.print(future.minute(), DEC);
-    mySerial.print(':');
-    mySerial.print(future.second(), DEC);
-    mySerial.println();
-
-    mySerial.println();
+//    mySerial.print(now.year(), DEC);
+//    mySerial.print('/');
+//    mySerial.print(now.month(), DEC);
+//    mySerial.print('/');
+//    mySerial.print(now.day(), DEC);
+//    mySerial.print(" (");
+//    mySerial.print(daysOfTheWeek[now.dayOfTheWeek()]);
+//    mySerial.print(") ");
+//    mySerial.print(now.hour(), DEC);
+//    mySerial.print(':');
+//    mySerial.print(now.minute(), DEC);
+//    mySerial.print(':');
+//    mySerial.print(now.second(), DEC);
+//    mySerial.println();
+    
     delay(3000);
 }
