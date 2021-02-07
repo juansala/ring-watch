@@ -13,7 +13,7 @@ volatile uint8_t* Port[] = {&OCR0A, &OCR0B, &OCR1A, &OCR1B};
 int state;
 unsigned long timer;
 const int INIT = 0;
-const int DISP = 1;
+const int SHOW = 1;
 const int STANDBY = 2;
 
 
@@ -25,16 +25,16 @@ char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursd
 void setup () {
   
   mySerial.begin(2400);
-  mySerial.println("Program started.");
+//  mySerial.println("Program started.");
   
   if (! rtc.begin()) {
-    mySerial.println("Couldn't find RTC");
-    mySerial.flush();
+//    mySerial.println("Couldn't find RTC");
+//    mySerial.flush();
     abort();
   }
 
   if (! rtc.initialized() || rtc.lostPower()) {
-    mySerial.println("RTC is NOT initialized, let's set the time!");
+//    mySerial.println("RTC is NOT initialized, let's set the time!");
     // When time needs to be set on a new device, or after a power loss, the
     // following line sets the RTC to the date & time this sketch was compiled
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
@@ -80,13 +80,13 @@ void setup () {
   // rtc.calibrate(PCF8523_TwoHours, offset); // Un-comment to perform calibration once drift (seconds) and observation period (seconds) are correct
   // rtc.calibrate(PCF8523_TwoHours, 0); // Un-comment to cancel previous calibration
 
-  mySerial.print("Offset is "); mySerial.println(offset); // Print to control offset
+//  mySerial.print("Offset is "); mySerial.println(offset); // Print to control offset
 
   // ATtiny PWM setup
   pinMode(Red, OUTPUT);
   pinMode(Green, OUTPUT);
   pinMode(Blue, OUTPUT);
-  pinMode(White, OUTPUT);
+//  pinMode(White, OUTPUT);
   // Configure counter/timer0 for fast PWM on PB0 and PB1
   TCCR0A = 3<<COM0A0 | 3<<COM0B0 | 3<<WGM00;
   TCCR0B = 0<<WGM02 | 3<<CS00; // Optional; already set
@@ -95,6 +95,11 @@ void setup () {
   GTCCR = 1<<PWM1B | 3<<COM1B0;
   // Interrupts on OC1A match and overflow
   TIMSK = TIMSK | 1<<OCIE1A | 1<<TOIE1;
+
+  timer = millis();
+  state = INIT;
+
+//  setColor(255,255,255);
 
 }
 
@@ -112,22 +117,38 @@ void setColor(int R, int G, int B) {
   OCR1B = B; // B
 }
 
-void clockFSM(int state){
-  switch(state){
+void clockFSM(int input){
+  switch(input){
     case INIT:
-    break;
+//      setColor(255,1,255);
+      if (millis() - timer > 50){
+        state = SHOW;
+        timer = millis();
+      }
+      break;
 
-    case DISP:
-    break;
+    case SHOW:
+      setColor(1,255,1); //hour
+      delay(1000);
+      setColor(255,1,1); //minute
+      delay(1000);
+      setColor(1,1,255); //minute
+      delay(1000);
+      setColor(1,1,1); //AM or PM
+      delay(1000);
+      state = STANDBY;
+      break;
 
     case STANDBY:
-    break;
+      setColor(1,255,1); //hour
+      break;
   }
   
 }
 
 void loop () {
     DateTime now = rtc.now();
+    clockFSM(state);
 
 //    mySerial.print(now.year(), DEC);
 //    mySerial.print('/');
@@ -144,5 +165,5 @@ void loop () {
 //    mySerial.print(now.second(), DEC);
 //    mySerial.println();
     
-    delay(3000);
+//    delay(3000);
 }
