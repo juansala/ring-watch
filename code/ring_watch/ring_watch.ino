@@ -22,6 +22,10 @@ SoftwareSerial mySerial(3, 4);
 
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
+int hour;
+int minutes;
+bool pm;
+
 void setup () {
   
   mySerial.begin(2400);
@@ -128,19 +132,22 @@ void clockFSM(int input){
       break;
 
     case SHOW:
-      setColor(1,255,1); //hour
+      setColor(255,1,255); //hour
       delay(1000);
-      setColor(255,1,1); //minute
+      setColor(1,255,255); //minute
       delay(1000);
-      setColor(1,1,255); //minute
+      setColor(255,255,1); //minute
       delay(1000);
-      setColor(1,1,1); //AM or PM
+      if (pm)
+        setColor(255,255,255); //AM or PM
+      else
+        setColor(1,1,1);
       delay(1000);
       state = STANDBY;
       break;
 
     case STANDBY:
-      setColor(1,255,1); //hour
+      setColor(255,1,255); //hour
       break;
   }
   
@@ -148,8 +155,12 @@ void clockFSM(int input){
 
 void loop () {
     DateTime now = rtc.now();
+    pm = (now.hour() > 12) ? true:false;
+    hour = abs(now.hour() - 12) ? hour != 12: 12;
+    minutes = now.minute();
     clockFSM(state);
-
+    
+//    setColor(255, 255,1);
 //    mySerial.print(now.year(), DEC);
 //    mySerial.print('/');
 //    mySerial.print(now.month(), DEC);
