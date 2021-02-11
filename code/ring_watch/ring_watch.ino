@@ -16,14 +16,28 @@ const int INIT = 0;
 const int SHOW = 1;
 const int STANDBY = 2;
 
+// Hour-hand color labels (0->12, 1->1, ..., 11->11)
+const int RED = 0; 
+const int ORANGE = 1;
+const int YELLOW = 2;
+const int LEAF_GREEN = 3;
+const int GREEN = 4;
+const int SPRING_GREEN = 5;
+const int SKY_BLUE = 6;
+const int LIGHT_BLUE = 7;
+const int BLUE = 8;
+const int PURPLE = 9;
+const int HOT_PINK = 10;
+const int MAGENTA = 11;
+
 
 RTC_PCF8523 rtc;
 SoftwareSerial mySerial(3, 4);
 
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-int hour;
-int minutes;
+int current_hour;
+int current_minutes;
 bool pm;
 
 void setup () {
@@ -116,9 +130,9 @@ ISR(TIMER1_OVF_vect) {
 }
 
 void setColor(int R, int G, int B) {
-  OCR1A = R; //R
-  OCR0B = G; //G
-  OCR1B = B; // B
+  OCR1A = 256 - R; //R
+  OCR0B = 256 - G; //G
+  OCR1B = 256 - B; // B
 }
 
 void clockFSM(int input){
@@ -132,33 +146,89 @@ void clockFSM(int input){
       break;
 
     case SHOW:
-      setColor(255,1,255); //hour
-      delay(1000);
-      setColor(1,255,255); //minute
-      delay(1000);
-      setColor(255,255,1); //minute
-      delay(1000);
+//      setColor(255,1,255); //hour
+//      delay(1500);
+//      setColor(1,255,255); //minute
+//      delay(1500);
+//      setColor(255,255,1); //minute
+//      delay(1500);
+      colorMap(current_hour);
+      delay(1500);
       if (pm)
-        setColor(255,255,255); //AM or PM
+        setColor(1,1,1); //AM or PM
       else
-        setColor(1,1,1);
-      delay(1000);
+        setColor(255,255,255);
+      delay(1500);
       state = STANDBY;
       break;
 
     case STANDBY:
-      setColor(255,1,255); //hour
+      colorMap(current_hour);
       break;
   }
   
 }
 
+void colorMap(int color){
+  switch(color){
+    case RED:
+      setColor(255,13,1);
+    break;
+
+    case ORANGE:
+     setColor(255,128,1);
+    break;
+
+    case YELLOW:
+     setColor(255,255,1);
+    break;
+
+    case LEAF_GREEN:
+     setColor(128,255,1);
+    break;
+
+    case GREEN:
+     setColor(1,255,1);
+    break;
+
+    case SPRING_GREEN:
+     setColor(1,255,128);
+    break;
+
+    case SKY_BLUE:
+     setColor(1,255,255);
+    break;
+
+    case LIGHT_BLUE:
+     setColor(1,128,255);
+    break;
+
+    case BLUE:
+      setColor(1,1,255);
+    break;
+
+    case PURPLE:
+     setColor(128,1,255);
+    break;
+
+    case HOT_PINK:
+     setColor(255,1,255);
+    break;
+
+    case MAGENTA:
+     setColor(255,1,128);
+    break;
+  }
+}
+
 void loop () {
     DateTime now = rtc.now();
-    pm = (now.hour() > 12) ? true:false;
-    hour = abs(now.hour() - 12) ? hour != 12: 12;
-    minutes = now.minute();
+    int temp = now.hour();
+    pm = (temp > 12) ? true:false;
+    current_hour = abs(temp - 12) ? temp != 12: 12;
+    current_minutes = now.minute();
     clockFSM(state);
+
     
 //    setColor(255, 255,1);
 //    mySerial.print(now.year(), DEC);
