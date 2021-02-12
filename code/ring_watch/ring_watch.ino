@@ -42,7 +42,7 @@ bool pm;
 
 void setup () {
   
-  mySerial.begin(2400);
+//  mySerial.begin(2400); // TODO: Find a way to toggle serial on/off so that it doesn't cause timing issues. Apparently, this line messes up the PWM counters for the RGB (and even programming)!
 //  mySerial.println("Program started.");
   
   if (! rtc.begin()) {
@@ -104,7 +104,7 @@ void setup () {
   pinMode(Red, OUTPUT);
   pinMode(Green, OUTPUT);
   pinMode(Blue, OUTPUT);
-//  pinMode(White, OUTPUT);
+  pinMode(White, OUTPUT);
   // Configure counter/timer0 for fast PWM on PB0 and PB1
   TCCR0A = 3<<COM0A0 | 3<<COM0B0 | 3<<WGM00;
   TCCR0B = 0<<WGM02 | 3<<CS00; // Optional; already set
@@ -117,8 +117,6 @@ void setup () {
   timer = millis();
   state = INIT;
 
-//  setColor(255,255,255);
-
 }
 
 ISR(TIMER1_COMPA_vect) {
@@ -130,9 +128,9 @@ ISR(TIMER1_OVF_vect) {
 }
 
 void setColor(int R, int G, int B) {
-  OCR1A = 256 - R; //R
   OCR0B = 256 - G; //G
   OCR1B = 256 - B; // B
+  OCR1A = 256 - R; //R
 }
 
 void clockFSM(int input){
@@ -162,7 +160,7 @@ void clockFSM(int input){
       state = STANDBY;
       break;
 
-    case STANDBY:
+    case STANDBY: // TODO: add if condition to go back to SHOW if hour/minute changes?
       colorMap(current_hour);
       break;
   }
@@ -172,11 +170,11 @@ void clockFSM(int input){
 void colorMap(int color){
   switch(color){
     case RED:
-      setColor(255,13,1);
+      setColor(255,1,1);
     break;
 
     case ORANGE:
-     setColor(255,128,1);
+      setColor(255,128,1);
     break;
 
     case YELLOW:
@@ -223,12 +221,12 @@ void colorMap(int color){
 
 void loop () {
     DateTime now = rtc.now();
-    int temp = now.hour();
-    pm = (temp > 12) ? true:false;
-    current_hour = abs(temp - 12) ? temp != 12: 12;
+//    int temp = 1;
+    int temp = (int) now.hour();
+    pm = (temp >= 12) ? true:false;
+    current_hour =  temp >= 12 ? temp - 12: temp;
     current_minutes = now.minute();
-    clockFSM(state);
-
+    clockFSM(state); //TODO: find a way to only update the color less frequently (?) to avoid programming issues
     
 //    setColor(255, 255,1);
 //    mySerial.print(now.year(), DEC);
