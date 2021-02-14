@@ -38,6 +38,8 @@ char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursd
 
 int current_hour;
 int current_minutes;
+int tens_digit;
+int ones_digit;
 bool pm;
 
 void setup () {
@@ -152,6 +154,10 @@ void clockFSM(int input){
 //      delay(1500);
       colorMap(current_hour);
       delay(1500);
+      colorMap(tens_digit);
+      delay(1500);
+      colorMap(ones_digit);
+      delay(1500);
       if (pm)
         setColor(1,1,1); //AM or PM
       else
@@ -226,6 +232,11 @@ void loop () {
     pm = (temp >= 12) ? true:false;
     current_hour =  temp >= 12 ? temp - 12: temp;
     current_minutes = now.minute();
+    ones_digit = current_minutes % 10; // get ones digit from minutes
+    if (current_minutes >= 10)
+      tens_digit = (current_minutes - ones_digit)/10 % 10; // gets tens digit from minutes if double digits
+    else
+      tens_digit = 0;
     clockFSM(state); //TODO: find a way to only update the color less frequently (?) to avoid programming issues
     
 //    setColor(255, 255,1);
